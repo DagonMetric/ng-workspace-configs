@@ -1,0 +1,20 @@
+branches:
+  only:
+    - master
+    - '/v(?:0|[1-9]\d*)(\.(?:0|[1-9]\d*))?(\.(?:0|[1-9]\d*))?(?:-[\da-z-]+(?:\.[\da-z-]+)*)?(?:\+[\da-z-]+(?:\.[\da-z-]+)*)?/'
+skip_non_tags: true
+clone_depth: 1
+environment:
+  nodejs_version: "10"
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - ps: |
+  - yarn install --frozen-lockfile --network-timeout=500000
+build_script:
+  - yarn run lint
+  - yarn run build
+  # - yarn run test
+test: "off"
+cache:
+  - node_modules -> yarn.lock
+  - "%LOCALAPPDATA%\\Yarn"
