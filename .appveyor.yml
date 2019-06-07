@@ -1,20 +1,28 @@
-branches:
-  only:
-    - master
-    - '/v(?:0|[1-9]\d*)(\.(?:0|[1-9]\d*))?(\.(?:0|[1-9]\d*))?(?:-[\da-z-]+(?:\.[\da-z-]+)*)?(?:\+[\da-z-]+(?:\.[\da-z-]+)*)?/'
-skip_non_tags: true
+version: '{build}'
+image: 'Visual Studio 2017'
 clone_depth: 1
+only_commits:
+  files:
+    - modules/*
+    - samples/*
+    - angular-build.json
+    - angular.json
+    - package.json
+    - tsconfig.json
+    - tslint.json
+    - .appveyor.yml
+skip_commits:
+  files:
+    - '**/*.md'
 environment:
   nodejs_version: "10"
 install:
   - ps: Install-Product node $env:nodejs_version
-  - ps: |
-  - yarn install --frozen-lockfile --network-timeout=500000
+  - yarn install --frozen-lockfile
 build_script:
-  - yarn run lint
-  - yarn run build
-  # - yarn run test
-test: "off"
+  - yarn build
+test_script:
+  - yarn test:ci
 cache:
   - node_modules -> yarn.lock
   - "%LOCALAPPDATA%\\Yarn"
