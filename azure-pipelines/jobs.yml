@@ -9,6 +9,7 @@ parameters:
 jobs:
   - job: ${{ parameters.name }}
     dependsOn:
+      - ${{ if ne(parameters.dependsOn, '') }}:
         - ${{ parameters.dependsOn }}
     pool:
       vmImage: ${{ parameters.vmImage }}
