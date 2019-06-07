@@ -1,0 +1,8 @@
+parameters:
+  runLint: 'true'
+
+steps:
+- ${{ if eq(parameters.runLint, 'true') }}:
+  - script: |
+      yarn lint
+    displayName: Run lint

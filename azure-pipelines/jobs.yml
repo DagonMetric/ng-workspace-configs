@@ -1,0 +1,27 @@
+parameters:
+  name: 'basic'
+  dependsOn: ''
+  vmImage: 'ubuntu-16.04'
+  nodeVersion: '10.9.0'
+  runTest: 'true'
+  runLint: 'true'
+
+jobs:
+  - job: ${{ parameters.name }}
+    dependsOn:
+        - ${{ parameters.dependsOn }}
+    pool:
+      vmImage: ${{ parameters.vmImage }}
+    steps:
+      - task: UseNode@1
+        inputs:
+          version: ${{ parameters.nodeVersion }}
+        displayName: Use Node ${{ parameters.vmImage }}
+      - template: steps/install-deps.yml
+      - template: steps/build.yml
+      - template: steps/test.yml
+        parameters:
+          runTest: ${{ parameters.runTest }}
+      - template: steps/lint.yml
+        parameters:
+          runLint: ${{ parameters.runLint }}

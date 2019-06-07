@@ -1,0 +1,7 @@
+# - script: |
+#     curl -o- -L https://yarnpkg.com/install.sh | bash
+#   condition: and(succeeded(), eq(variables['installYarnLatest'], 'true'))
+#   displayName: 'Install Yarn'
+- script: |
+    yarn install --frozen-lockfile
+  displayName: Install dependencies

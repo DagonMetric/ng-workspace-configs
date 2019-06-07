@@ -1,0 +1,8 @@
+parameters:
+  runTest: 'true'
+
+steps:
+- ${{ if eq(parameters.runTest, 'true') }}:
+  - script: |
+      yarn test:ci
+    displayName: Run test
