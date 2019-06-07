@@ -1,23 +1,29 @@
 parameters:
-  name: 'basic'
+  name: 'default'
   dependsOn: ''
   vmImage: 'ubuntu-16.04'
-  nodeVersion: '10.9.0'
   runTest: 'true'
   runLint: 'true'
+  maxParallel: 3
+  matrix:
+    node-10:
+      nodeVersion: '10.x'
 
 jobs:
   - job: ${{ parameters.name }}
     dependsOn:
       - ${{ if ne(parameters.dependsOn, '') }}:
         - ${{ parameters.dependsOn }}
+    strategy:
+      maxParallel: ${{ parameters.maxParallel }}
+      matrix: ${{ parameters.matrix }}
     pool:
       vmImage: ${{ parameters.vmImage }}
     steps:
       - task: UseNode@1
         inputs:
-          version: ${{ parameters.nodeVersion }}
-        displayName: Use Node ${{ parameters.vmImage }}
+          version: $(nodeVersion)
+        displayName: Use Node $(nodeVersion)
       - template: steps/install-deps.yml
       - template: steps/build.yml
       - template: steps/test.yml
