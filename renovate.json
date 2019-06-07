@@ -43,6 +43,7 @@
     },
     {
       "packageNames": ["@types/node"],
+      "rangeStrategy": "replace",
       "schedule": "on the last day of the month"
     },
     {
@@ -62,11 +63,8 @@
     },
     {
       "packageNames": ["typescript"],
-      "updateTypes": "patch"
-    },
-    {
-      "packageNames": ["rxjs"],
-      "updateTypes": "patch"
+      "updateTypes": ["patch"],
+      "rangeStrategy": "replace"
     }
   ]
 }
