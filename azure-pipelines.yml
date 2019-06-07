@@ -34,7 +34,7 @@ jobs:
           yarn build
         displayName: "Run build"
       - script: |
-          yarn test
+          yarn test:ci
         condition: and(succeeded(), ne(variables['skipTest'], 'true'))
         displayName: "Run test"
 
@@ -63,7 +63,7 @@ jobs:
           yarn build
         displayName: 'Run build'
       - script: |
-          yarn test
+          yarn test:ci
         condition: and(succeeded(), ne(variables['skipTest'], 'true'))
         displayName: 'Run test'
 
@@ -92,7 +92,7 @@ jobs:
           yarn build
         displayName: 'Run build'
       - script: |
-          yarn test
+          yarn test:ci
         condition: and(succeeded(), ne(variables['skipTest'], 'true'))
         displayName: 'Run test'
 
@@ -121,6 +121,6 @@ jobs:
           yarn build
         displayName: 'Run build'
       - script: |
-          yarn test
+          yarn test:ci
         condition: and(succeeded(), ne(variables['skipTest'], 'true'))
         displayName: 'Run test'

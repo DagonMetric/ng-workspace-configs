@@ -22,7 +22,7 @@ install:
 build_script:
   - yarn build
 test_script:
-  - yarn test
+  - yarn test:ci
 cache:
   - node_modules -> yarn.lock
   - "%LOCALAPPDATA%\\Yarn"
