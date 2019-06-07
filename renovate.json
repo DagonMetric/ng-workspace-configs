@@ -46,6 +46,21 @@
       "schedule": "on the last day of the month"
     },
     {
+      "packagePatterns": ["^jasmine.*"],
+      "groupName": "jasmine",
+      "rangeStrategy": "replace"
+    },
+    {
+      "packagePatterns": ["^karma.*"],
+      "groupName": "karma",
+      "rangeStrategy": "replace"
+    },
+    {
+      "packagePatterns": ["^protractor.*"],
+      "groupName": "protractor",
+      "rangeStrategy": "replace"
+    },
+    {
       "packageNames": ["typescript"],
       "updateTypes": "patch"
     },
