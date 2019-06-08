@@ -10,4 +10,4 @@ steps:
     testRunTitle: ${{ parameters.testRunTitle }}
     testResultsFormat: JUnit
     testResultsFiles: "**/TESTS*.xml"
-displayName: Publish ${{ parameters.testRunTitle }} test results
+  displayName: Publish ${{ parameters.testRunTitle }} test results
