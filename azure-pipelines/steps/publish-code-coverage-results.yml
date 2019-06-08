@@ -1,6 +1,6 @@
 parameters:
-  summaryFileLocation: 'coverage/cobertura-coverage.xml'
-  reportDirectory: 'coverage'
+  summaryFileLocation: 'dist/coverage/cobertura-coverage.xml'
+  reportDirectory: 'dist/coverage'
 
 steps:
 - task: PublishCodeCoverageResults@1

@@ -13,8 +13,8 @@ parameters:
           searchFolder: 'dist/junit/ng-translit'
       publishCodeCoverageArtifacts:
         - publishCodeCoverageArtifact:
-          summaryFileLocation: 'coverage/ng-translit/cobertura-coverage.xml'
-          reportDirectory: 'coverage/ng-translit'
+          summaryFileLocation: 'dist/coverage/ng-translit/cobertura-coverage.xml'
+          reportDirectory: 'dist/coverage/ng-translit'
       publishReleaseNotes: 'true'
     linux:
       vmImage: 'ubuntu-latest'
