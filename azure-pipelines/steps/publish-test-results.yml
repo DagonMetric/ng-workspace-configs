@@ -1,6 +1,6 @@
 parameters:
   testRunTitle: 'junit'
-  searchFolder: 'dist/junit/$[Build.Repository.Name]'
+  searchFolder: 'dist/junit'
 
 steps:
 - task: PublishTestResults@2

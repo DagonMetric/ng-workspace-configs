@@ -1,6 +1,6 @@
 parameters:
-  artifactName: 'release-notes'
-  targetPath: 'release-notes/v$[packageVersion]'
+  artifactName: release-notes
+  targetPath: release-notes/v$[packageVersion]
 
 steps:
 - task: PublishPipelineArtifact@0
