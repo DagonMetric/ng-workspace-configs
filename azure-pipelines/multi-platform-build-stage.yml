@@ -9,16 +9,17 @@ parameters:
           targetPath: 'dist/packages'
       publishTestArtifacts:
         - publishTestArtifact:
-          testRunTitle: 'junit'
-          searchFolder: 'dist/junit'
+          testRunTitle: '${{Build.Repository.Name}} tests'
+          searchFolder: 'dist/junit/${{Build.Repository.Name}}'
       publishCodeCoverageArtifacts:
         - publishCodeCoverageArtifact:
-          summaryFileLocation: 'coverage/cobertura-coverage.xml'
-          reportDirectory: 'coverage'
+          summaryFileLocation: 'coverage/${{Build.Repository.Name}}/cobertura-coverage.xml'
+          reportDirectory: 'coverage/${{Build.Repository.Name}}'
       publishReleaseNotes: 'true'
     linux:
       vmImage: 'ubuntu-latest'
       dependsOn: 'default'
+      condition: and(succeeded(), ne(variables['skipLinuxJob'], 'true'))
       runLint: 'false'
       publishBuildArtifacts: []
       publishTestArtifacts: []
@@ -32,6 +33,7 @@ parameters:
     macOS:
       vmImage: 'macOS-latest'
       dependsOn: 'default'
+      condition: and(succeeded(), ne(variables['skipMacOSJob'], 'true'))
       runLint: 'false'
       publishBuildArtifacts: []
       publishTestArtifacts: []
@@ -45,6 +47,7 @@ parameters:
     windows:
       vmImage: 'windows-latest'
       dependsOn: 'default'
+      condition: and(succeeded(), ne(variables['skipWindowsJob'], 'true'))
       runLint: 'false'
       publishBuildArtifacts: []
       publishTestArtifacts: []
