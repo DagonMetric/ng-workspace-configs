@@ -2,19 +2,13 @@ parameters:
   name: 'multi_platform_build_test'
   jobs:
     linux:
-      parameters:
-        name: 'linux'
-        vmImage: 'ubuntu-latest'
+      vmImage: 'ubuntu-latest'
     macOS:
-      parameters:
-        name: 'macOS'
-        vmImage: 'macOS-latest'
-        runLint: 'false'
+      vmImage: 'macOS-latest'
+      runLint: 'false'
     windows:
-      parameters:
-        name: 'windows'
-        vmImage: 'windows-latest'
-        runLint: 'false'
+      vmImage: 'windows-latest'
+      runLint: 'false'
   additionalVariables: {}
 
 stages:
@@ -25,4 +19,6 @@ stages:
   - ${{ each job in parameters.jobs }}:
     - template: build-test-job.yml
       parameters:
-        ${{ insert }}: ${{ job.value.parameters }}
+        name: ${{ job.key }}
+        additionalVariables: ${{ parameters.additionalVariables }}
+        ${{ insert }}: ${{ job.value }}

@@ -11,9 +11,12 @@ parameters:
   matrix:
     node-10:
       nodeVersion: '10.x'
+  additionalVariables: {}
 
 jobs:
   - job: ${{ parameters.name }}
+    variables:
+      ${{ insert }}: ${{ parameters.additionalVariables }}
     dependsOn:
       - ${{ if parameters.dependsOn }}:
         - ${{ parameters.dependsOn }}
@@ -36,6 +39,5 @@ jobs:
         parameters:
           preTest: ${{ parameters.preTest }}
           postTest: ${{ parameters.postTest }}
-      - template: steps/lint.yml
-        parameters:
-          runLint: ${{ parameters.runLint }}
+      - ${{ if eq(parameters.runLint, 'true') }}:
+        - template: steps/lint.yml
