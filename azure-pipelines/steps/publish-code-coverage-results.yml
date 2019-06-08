@@ -10,4 +10,4 @@ steps:
     summaryFileLocation: ${{ parameters.summaryFileLocation }}
     reportDirectory: ${{ parameters.reportDirectory }}
     failIfCoverageEmpty: true
-displayName: Publish code coverage results - ${{ parameters.reportDirectory }}
+  displayName: Publish code coverage results - ${{ parameters.reportDirectory }}
