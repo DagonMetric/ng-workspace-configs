@@ -1,6 +1,6 @@
 parameters:
-  summaryFileLocation: 'coverage/${{Build.Repository.Name}}/cobertura-coverage.xml'
-  reportDirectory: 'coverage/${{Build.Repository.Name}}'
+  summaryFileLocation: 'coverage/$[Build.Repository.Name]/cobertura-coverage.xml'
+  reportDirectory: 'coverage/$[Build.Repository.Name]'
 
 steps:
 - task: PublishCodeCoverageResults@1
