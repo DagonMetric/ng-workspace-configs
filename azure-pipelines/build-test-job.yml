@@ -2,8 +2,11 @@ parameters:
   name: 'default'
   dependsOn: ''
   vmImage: 'ubuntu-16.04'
-  runTest: 'true'
   runLint: 'true'
+  preBuild: []
+  postBuild: []
+  preTest: []
+  postTest: []
   maxParallel: 0
   matrix:
     node-10:
@@ -12,7 +15,7 @@ parameters:
 jobs:
   - job: ${{ parameters.name }}
     dependsOn:
-      - ${{ if ne(parameters.dependsOn, '') }}:
+      - ${{ if parameters.dependsOn }}:
         - ${{ parameters.dependsOn }}
     strategy:
       maxParallel: ${{ parameters.maxParallel }}
@@ -26,9 +29,13 @@ jobs:
         displayName: Use Node $(nodeVersion)
       - template: steps/install-deps.yml
       - template: steps/build.yml
+        parameters:
+          preBuild: ${{ parameters.preBuild }}
+          postBuild: ${{ parameters.postBuild }}
       - template: steps/test.yml
         parameters:
-          runTest: ${{ parameters.runTest }}
+          preTest: ${{ parameters.preTest }}
+          postTest: ${{ parameters.postTest }}
       - template: steps/lint.yml
         parameters:
           runLint: ${{ parameters.runLint }}

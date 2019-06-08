@@ -1,8 +1,6 @@
-parameters:
-  runTest: 'true'
-
 steps:
-- ${{ if eq(parameters.runTest, 'true') }}:
-  - script: |
-      yarn test -- -c=ci
-    displayName: Run test
+- ${{ parameters.preTest }}
+- script: |
+    yarn test -- -c=ci
+  displayName: Run test
+- ${{ parameters.postTest }}
