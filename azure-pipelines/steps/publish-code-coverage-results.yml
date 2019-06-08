@@ -1,0 +1,13 @@
+parameters:
+  summaryFileLocation: 'coverage/cobertura-coverage.xml'
+  reportDirectory: 'coverage'
+
+steps:
+- task: PublishCodeCoverageResults@1
+  condition: succeededOrFailed()
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: ${{ parameters.summaryFileLocation }}
+    reportDirectory: ${{ parameters.reportDirectory }}
+    failIfCoverageEmpty: true
+displayName: Publish code coverage results - ${{ parameters.reportDirectory }}

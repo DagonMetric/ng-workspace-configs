@@ -1,0 +1,13 @@
+parameters:
+  testRunTitle: 'junit'
+  searchFolder: 'dist/junit'
+
+steps:
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    searchFolder: $(System.DefaultWorkingDirectory)/${{ parameters.searchFolder }}
+    testRunTitle: ${{ parameters.testRunTitle }}
+    testResultsFormat: JUnit
+    testResultsFiles: "**/TESTS*.xml"
+displayName: Publish ${{ parameters.testRunTitle }} test results

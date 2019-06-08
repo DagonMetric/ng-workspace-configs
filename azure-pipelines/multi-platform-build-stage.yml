@@ -1,0 +1,69 @@
+parameters:
+  name: 'multi_platform_build'
+  jobs:
+    default:
+      vmImage: 'ubuntu-16.04'
+      publishBuildArtifacts:
+        - publishBuildArtifact:
+          artifactName: 'packages'
+          targetPath: 'dist/packages'
+      publishTestArtifacts:
+        - publishTestArtifact:
+          testRunTitle: 'junit'
+          searchFolder: 'dist/junit'
+      publishCodeCoverageArtifacts:
+        - publishCodeCoverageArtifact:
+          summaryFileLocation: 'coverage/cobertura-coverage.xml'
+          reportDirectory: 'coverage'
+      publishReleaseNotes: 'true'
+    linux:
+      vmImage: 'ubuntu-latest'
+      dependsOn: 'default'
+      runLint: 'false'
+      publishBuildArtifacts: []
+      publishTestArtifacts: []
+      publishCodeCoverageArtifacts: []
+      publishReleaseNotes: 'false'
+      matrix:
+        node-10:
+          nodeVersion: '10.x'
+        node-12:
+          nodeVersion: '12.x'
+    macOS:
+      vmImage: 'macOS-latest'
+      dependsOn: 'default'
+      runLint: 'false'
+      publishBuildArtifacts: []
+      publishTestArtifacts: []
+      publishCodeCoverageArtifacts: []
+      publishReleaseNotes: 'false'
+      matrix:
+        node-10:
+          nodeVersion: '10.x'
+        node-12:
+          nodeVersion: '12.x'
+    windows:
+      vmImage: 'windows-latest'
+      dependsOn: 'default'
+      runLint: 'false'
+      publishBuildArtifacts: []
+      publishTestArtifacts: []
+      publishCodeCoverageArtifacts: []
+      publishReleaseNotes: 'false'
+      matrix:
+        node-10:
+          nodeVersion: '10.x'
+        node-12:
+          nodeVersion: '12.x'
+  additionalVariables: {}
+
+stages:
+- stage: ${{ parameters.name }}
+  variables:
+    ${{ insert }}: ${{ parameters.additionalVariables }}
+  jobs:
+  - ${{ each job in parameters.jobs }}:
+    - template: build-job.yml
+      parameters:
+        name: ${{ job.key }}
+        ${{ insert }}: ${{ job.value }}
