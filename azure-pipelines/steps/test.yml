@@ -4,5 +4,5 @@ parameters:
 steps:
 - ${{ if eq(parameters.runTest, 'true') }}:
   - script: |
-      yarn test:ci
+      yarn test -- -c=ci
     displayName: Run test
