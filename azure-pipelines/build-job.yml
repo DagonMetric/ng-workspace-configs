@@ -24,6 +24,7 @@ jobs:
     dependsOn:
       - ${{ if parameters.dependsOn }}:
         - ${{ parameters.dependsOn }}
+    condition: and(succeeded(), ne(variables.skipJob, 'true'))
     strategy:
       maxParallel: ${{ parameters.maxParallel }}
       matrix: ${{ parameters.matrix }}
