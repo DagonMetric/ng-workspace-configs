@@ -1,5 +1,8 @@
 parameters:
   name: 'multi_platform_build'
+  skipLinuxJob: 'false'
+  skipMacOSJob: 'false'
+  skipWindowsJob: 'false'
   # additionalVariables: {}
 
 stages:
@@ -24,7 +27,7 @@ stages:
           summaryFileLocation: 'dist/coverage/ng-translit/cobertura-coverage.xml'
           reportDirectory: 'dist/coverage/ng-translit'
       publishReleaseNotes: 'true'
-  - ${{ if ne(variables['skipLinuxJob'], 'true') }}:
+  - ${{ if ne(parameters.skipLinuxJob, 'true') }}:
     - template: build-job.yml
       parameters:
         name: 'linux'
@@ -36,30 +39,30 @@ stages:
             nodeVersion: '10.x'
           node-12:
             nodeVersion: '12.x'
-  # - ${{ if ne(variables['skipMacOSJob'], 'true') }}:
-  #   - template: build-job.yml
-  #     parameters:
-  #       name: 'macOS'
-  #       vmImage: 'macOS-latest'
-  #       dependsOn: 'default'
-  #       runLint: 'false'
-  #       matrix:
-  #         node-10:
-  #           nodeVersion: '10.x'
-  #         node-12:
-  #           nodeVersion: '12.x'
-  # - ${{ if ne(variables['skipWindowsJob'], 'true') }}:
-  #   - template: build-job.yml
-  #     parameters:
-  #       name: 'windows'
-  #       vmImage: 'windows-latest'
-  #       dependsOn: 'default'
-  #       runLint: 'false'
-  #       matrix:
-  #         node-10:
-  #           nodeVersion: '10.x'
-  #         node-12:
-  #           nodeVersion: '12.x'
+  - ${{ if ne(parameters.skipMacOSJob, 'true') }}:
+    - template: build-job.yml
+      parameters:
+        name: 'macOS'
+        vmImage: 'macOS-latest'
+        dependsOn: 'default'
+        runLint: 'false'
+        matrix:
+          node-10:
+            nodeVersion: '10.x'
+          node-12:
+            nodeVersion: '12.x'
+  - ${{ if ne(parameters.skipWindowsJob, 'true') }}:
+    - template: build-job.yml
+      parameters:
+        name: 'windows'
+        vmImage: 'windows-latest'
+        dependsOn: 'default'
+        runLint: 'false'
+        matrix:
+          node-10:
+            nodeVersion: '10.x'
+          node-12:
+            nodeVersion: '12.x'
 
   # - ${{ each job in parameters.jobs }}:
   #   - template: build-job.yml
