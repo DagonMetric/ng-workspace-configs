@@ -1,7 +1,15 @@
 parameters:
   name: 'multi_platform_build'
+  additionalVariables: {}
+
+stages:
+- stage: ${{ parameters.name }}
+  variables:
+    ${{ insert }}: ${{ parameters.additionalVariables }}
   jobs:
-    default:
+  - template: build-job.yml
+    parameters:
+      name: 'default'
       vmImage: 'ubuntu-16.04'
       publishBuildArtifacts:
         - publishBuildArtifact:
@@ -16,57 +24,45 @@ parameters:
           summaryFileLocation: 'dist/coverage/ng-translit/cobertura-coverage.xml'
           reportDirectory: 'dist/coverage/ng-translit'
       publishReleaseNotes: 'true'
-    linux:
-      vmImage: 'ubuntu-latest'
-      dependsOn: 'default'
-      condition: and(succeeded(), ne(variables['skipLinuxJob'], 'true'))
-      runLint: 'false'
-      publishBuildArtifacts: []
-      publishTestArtifacts: []
-      publishCodeCoverageArtifacts: []
-      publishReleaseNotes: 'false'
-      matrix:
-        node-10:
-          nodeVersion: '10.x'
-        node-12:
-          nodeVersion: '12.x'
-    macOS:
-      vmImage: 'macOS-latest'
-      dependsOn: 'default'
-      condition: and(succeeded(), ne(variables['skipMacOSJob'], 'true'))
-      runLint: 'false'
-      publishBuildArtifacts: []
-      publishTestArtifacts: []
-      publishCodeCoverageArtifacts: []
-      publishReleaseNotes: 'false'
-      matrix:
-        node-10:
-          nodeVersion: '10.x'
-        node-12:
-          nodeVersion: '12.x'
-    windows:
-      vmImage: 'windows-latest'
-      dependsOn: 'default'
-      condition: and(succeeded(), ne(variables['skipWindowsJob'], 'true'))
-      runLint: 'false'
-      publishBuildArtifacts: []
-      publishTestArtifacts: []
-      publishCodeCoverageArtifacts: []
-      publishReleaseNotes: 'false'
-      matrix:
-        node-10:
-          nodeVersion: '10.x'
-        node-12:
-          nodeVersion: '12.x'
-  additionalVariables: {}
-
-stages:
-- stage: ${{ parameters.name }}
-  variables:
-    ${{ insert }}: ${{ parameters.additionalVariables }}
-  jobs:
-  - ${{ each job in parameters.jobs }}:
+  - ${{ if ne(variables['skipLinuxJob'], 'true') }}:
     - template: build-job.yml
       parameters:
-        name: ${{ job.key }}
-        ${{ insert }}: ${{ job.value }}
+        name: 'linux'
+        vmImage: 'ubuntu-latest'
+        dependsOn: 'default'
+        runLint: 'false'
+        matrix:
+          node-10:
+            nodeVersion: '10.x'
+          node-12:
+            nodeVersion: '12.x'
+  - ${{ if ne(variables['skipMacOSJob'], 'true') }}:
+    - template: build-job.yml
+      parameters:
+        name: 'macOS'
+        vmImage: 'macOS-latest'
+        dependsOn: 'default'
+        runLint: 'false'
+        matrix:
+          node-10:
+            nodeVersion: '10.x'
+          node-12:
+            nodeVersion: '12.x'
+  - ${{ if ne(variables['skipWindowsJob'], 'true') }}:
+    - template: build-job.yml
+      parameters:
+        name: 'windows'
+        vmImage: 'windows-latest'
+        dependsOn: 'default'
+        runLint: 'false'
+        matrix:
+          node-10:
+            nodeVersion: '10.x'
+          node-12:
+            nodeVersion: '12.x'
+
+  # - ${{ each job in parameters.jobs }}:
+  #   - template: build-job.yml
+  #     parameters:
+  #       name: ${{ job.key }}
+  #       ${{ insert }}: ${{ job.value }}
