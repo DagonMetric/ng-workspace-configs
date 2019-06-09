@@ -1,11 +1,11 @@
 parameters:
   name: 'multi_platform_build'
-  additionalVariables: {}
+  # additionalVariables: {}
 
 stages:
 - stage: ${{ parameters.name }}
-  variables:
-    ${{ insert }}: ${{ parameters.additionalVariables }}
+  # variables:
+  #   ${{ insert }}: ${{ parameters.additionalVariables }}
   jobs:
   - template: build-job.yml
     parameters:
@@ -36,30 +36,30 @@ stages:
             nodeVersion: '10.x'
           node-12:
             nodeVersion: '12.x'
-  - ${{ if ne(variables['skipMacOSJob'], 'true') }}:
-    - template: build-job.yml
-      parameters:
-        name: 'macOS'
-        vmImage: 'macOS-latest'
-        dependsOn: 'default'
-        runLint: 'false'
-        matrix:
-          node-10:
-            nodeVersion: '10.x'
-          node-12:
-            nodeVersion: '12.x'
-  - ${{ if ne(variables['skipWindowsJob'], 'true') }}:
-    - template: build-job.yml
-      parameters:
-        name: 'windows'
-        vmImage: 'windows-latest'
-        dependsOn: 'default'
-        runLint: 'false'
-        matrix:
-          node-10:
-            nodeVersion: '10.x'
-          node-12:
-            nodeVersion: '12.x'
+  # - ${{ if ne(variables['skipMacOSJob'], 'true') }}:
+  #   - template: build-job.yml
+  #     parameters:
+  #       name: 'macOS'
+  #       vmImage: 'macOS-latest'
+  #       dependsOn: 'default'
+  #       runLint: 'false'
+  #       matrix:
+  #         node-10:
+  #           nodeVersion: '10.x'
+  #         node-12:
+  #           nodeVersion: '12.x'
+  # - ${{ if ne(variables['skipWindowsJob'], 'true') }}:
+  #   - template: build-job.yml
+  #     parameters:
+  #       name: 'windows'
+  #       vmImage: 'windows-latest'
+  #       dependsOn: 'default'
+  #       runLint: 'false'
+  #       matrix:
+  #         node-10:
+  #           nodeVersion: '10.x'
+  #         node-12:
+  #           nodeVersion: '12.x'
 
   # - ${{ each job in parameters.jobs }}:
   #   - template: build-job.yml
