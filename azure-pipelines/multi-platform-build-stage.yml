@@ -2,8 +2,8 @@ parameters:
   name: 'multi_platform_build'
   publishBuildArtifacts:
   - publishBuildArtifact:
-    artifactName: ''
-    targetPath: ''
+    artifactName: 'packages'
+    targetPath: 'dist/packages'
   publishTestArtifacts:
     - publishTestArtifact:
       testRunTitle: ''
@@ -12,6 +12,9 @@ parameters:
     - publishCodeCoverageArtifact:
       summaryFileLocation: ''
       reportDirectory: ''
+  publishReleaseNotesArtifact:
+    artifactName: 'release-notes'
+    targetPath: ''
 
 stages:
 - stage: ${{ parameters.name }}
@@ -22,6 +25,7 @@ stages:
       publishBuildArtifacts: ${{ parameters.publishBuildArtifacts }}
       publishTestArtifacts: ${{ parameters.publishTestArtifacts }}
       publishCodeCoverageArtifacts: ${{ parameters.publishCodeCoverageArtifacts }}
+      publishReleaseNotesArtifact: ${{ parameters.publishReleaseNotesArtifact }}
       publishReleaseNotes: 'true'
   - template: build-job.yml
     parameters:

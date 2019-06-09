@@ -7,6 +7,9 @@ parameters:
   publishTestArtifacts: []
   publishCodeCoverageArtifacts: []
   publishReleaseNotes: 'false'
+  publishReleaseNotesArtifact:
+    artifactName: 'release-notes'
+    targetPath: ''
   maxParallel: 0
   matrix:
     node-10.15.3:
@@ -54,3 +57,6 @@ jobs:
             targetPath: ${{ publishBuildArtifact.targetPath }}
       - ${{ if eq(parameters.publishReleaseNotes, 'true') }}:
         - template: steps/publish-release-notes.yml
+          parameters:
+            artifactName: ${{ parameters.publishReleaseNotesArtifact.artifactName }}
+            targetPath: ${{ parameters.publishReleaseNotesArtifact.targetPath }}
