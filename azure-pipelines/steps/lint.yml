@@ -1,4 +1,5 @@
 steps:
 - script: |
     yarn lint
+  condition: and(succeeded(), ne(variables['skipLint'], 'true'))
   displayName: Run lint

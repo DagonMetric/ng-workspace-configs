@@ -35,11 +35,16 @@ jobs:
           version: $(nodeVersion)
         displayName: Use Node $(nodeVersion)
       - template: steps/install-deps.yml
-      - template: steps/build.yml
-      - template: steps/test.yml
       - template: steps/set-package-info-variables.yml
       - ${{ if eq(parameters.runLint, 'true') }}:
         - template: steps/lint.yml
+      - template: steps/build.yml
+      - ${{ each publishBuildArtifact in parameters.publishBuildArtifacts }}:
+        - template: steps/publish-build-results.yml
+          parameters:
+            artifactName: ${{ publishBuildArtifact.artifactName }}
+            targetPath: ${{ publishBuildArtifact.targetPath }}
+      - template: steps/test.yml
       - ${{ each publishCodeCoverageArtifact in parameters.publishCodeCoverageArtifacts }}:
         - template: steps/publish-code-coverage-results.yml
           parameters:
@@ -50,11 +55,6 @@ jobs:
           parameters:
             testRunTitle: ${{ publishTestArtifact.testRunTitle }}
             searchFolder: ${{ publishTestArtifact.searchFolder }}
-      - ${{ each publishBuildArtifact in parameters.publishBuildArtifacts }}:
-        - template: steps/publish-build-results.yml
-          parameters:
-            artifactName: ${{ publishBuildArtifact.artifactName }}
-            targetPath: ${{ publishBuildArtifact.targetPath }}
       - ${{ if eq(parameters.publishReleaseNotes, 'true') }}:
         - template: steps/publish-release-notes.yml
           parameters:
