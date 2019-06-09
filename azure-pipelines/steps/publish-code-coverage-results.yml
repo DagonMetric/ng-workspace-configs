@@ -1,13 +1,19 @@
 parameters:
-  summaryFileLocation: 'dist/coverage/cobertura-coverage.xml'
-  reportDirectory: 'dist/coverage'
+  summaryFileLocation: ''
+  reportDirectory: ''
 
 steps:
 - task: PublishCodeCoverageResults@1
   condition: succeededOrFailed()
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: ${{ parameters.summaryFileLocation }}
-    reportDirectory: ${{ parameters.reportDirectory }}
+    ${{ if parameters.summaryFileLocation }}:
+      summaryFileLocation: ${{ parameters.summaryFileLocation }}
+    ${{ if eq(parameters.summaryFileLocation, '') }}:
+      summaryFileLocation: dist/coverage/$(packageName)/cobertura-coverage.xml
+    ${{ if parameters.reportDirectory }}:
+      reportDirectory: ${{ parameters.reportDirectory }}
+    ${{ if eq(parameters.reportDirectory, '') }}:
+      reportDirectory: dist/coverage/$(packageName)
     failIfCoverageEmpty: true
-  displayName: Publish code coverage results - ${{ parameters.reportDirectory }}
+  displayName: Publish code coverage results

@@ -1,8 +1,17 @@
 parameters:
   name: 'multi_platform_build'
-  publishBuildArtifacts: []
-  publishTestArtifacts: []
-  publishCodeCoverageArtifacts: []
+  publishBuildArtifacts:
+  - publishBuildArtifact:
+    artifactName: ''
+    targetPath: ''
+  publishTestArtifacts:
+    - publishTestArtifact:
+      testRunTitle: ''
+      searchFolder: ''
+  publishCodeCoverageArtifacts:
+    - publishCodeCoverageArtifact:
+      summaryFileLocation: ''
+      reportDirectory: ''
 
 stages:
 - stage: ${{ parameters.name }}
@@ -10,12 +19,9 @@ stages:
   - template: build-job.yml
     parameters:
       name: 'default'
-      publishBuildArtifacts:
-        - ${{ parameters.publishBuildArtifacts }}
-      publishTestArtifacts:
-        - ${{ parameters.publishTestArtifacts }}
-      publishCodeCoverageArtifacts:
-        - ${{ parameters.publishCodeCoverageArtifacts }}
+      publishBuildArtifacts: ${{ parameters.publishBuildArtifacts }}
+      publishTestArtifacts: ${{ parameters.publishTestArtifacts }}
+      publishCodeCoverageArtifacts: ${{ parameters.publishCodeCoverageArtifacts }}
       publishReleaseNotes: 'true'
   - template: build-job.yml
     parameters:
@@ -30,3 +36,29 @@ stages:
           nodeVersion: '12.x'
       additionalVariables:
         skipJob: $[variables.skipLinuxJob]
+  - template: build-job.yml
+    parameters:
+      name: 'macOS'
+      vmImage: 'macOS-latest'
+      dependsOn: 'default'
+      runLint: 'false'
+      matrix:
+        node-10:
+          nodeVersion: '10.x'
+        node-12:
+          nodeVersion: '12.x'
+      additionalVariables:
+        skipJob: $[variables.skipMacOSJob]
+  - template: build-job.yml
+    parameters:
+      name: 'windows'
+      vmImage: 'windows-latest'
+      dependsOn: 'default'
+      runLint: 'false'
+      matrix:
+        node-10:
+          nodeVersion: '10.x'
+        node-12:
+          nodeVersion: '12.x'
+      additionalVariables:
+        skipJob: $[variables.skipWindowsJob]

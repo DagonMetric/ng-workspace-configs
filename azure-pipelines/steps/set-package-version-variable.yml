@@ -1,5 +1,0 @@
-steps:
-- bash: |
-    verson=`node -p "require('./package.json').version;"`
-    echo "##vso[task.setvariable variable=packageVersion]$verson"
-  displayName: 'Set package version variable'

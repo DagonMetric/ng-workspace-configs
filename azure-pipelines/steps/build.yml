@@ -1,10 +1,4 @@
-parameters:
-  preBuild: []
-  postBuild: []
-
 steps:
-- ${{ parameters.preBuild }}
 - script: |
     yarn build
   displayName: Run build
-- ${{ parameters.postBuild }}

@@ -3,10 +3,6 @@ parameters:
   dependsOn: ''
   vmImage: 'ubuntu-16.04'
   runLint: 'true'
-  preBuild: []
-  postBuild: []
-  preTest: []
-  postTest: []
   publishBuildArtifacts: []
   publishTestArtifacts: []
   publishCodeCoverageArtifacts: []
@@ -37,13 +33,8 @@ jobs:
         displayName: Use Node $(nodeVersion)
       - template: steps/install-deps.yml
       - template: steps/build.yml
-        parameters:
-          preBuild: ${{ parameters.preBuild }}
-          postBuild: ${{ parameters.postBuild }}
       - template: steps/test.yml
-        parameters:
-          preTest: ${{ parameters.preTest }}
-          postTest: ${{ parameters.postTest }}
+      - template: steps/set-package-info-variables.yml
       - ${{ if eq(parameters.runLint, 'true') }}:
         - template: steps/lint.yml
       - ${{ each publishCodeCoverageArtifact in parameters.publishCodeCoverageArtifacts }}:
@@ -61,5 +52,5 @@ jobs:
           parameters:
             artifactName: ${{ publishBuildArtifact.artifactName }}
             targetPath: ${{ publishBuildArtifact.targetPath }}
-      - ${{ if and(eq(parameters.publishReleaseNotes, 'true'), contains(variables['Build.SourceBranch'], 'refs/tags/')) }}:
+      - ${{ if eq(parameters.publishReleaseNotes, 'true') }}:
         - template: steps/publish-release-notes.yml

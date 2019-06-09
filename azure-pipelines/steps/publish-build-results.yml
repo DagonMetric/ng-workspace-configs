@@ -5,6 +5,12 @@ parameters:
 steps:
 - task: PublishPipelineArtifact@0
   inputs:
-    artifactName: ${{ parameters.artifactName }}
-    targetPath: ${{ parameters.targetPath }}
-  displayName: Publish build artifacts - ${{ parameters.targetPath }}
+    ${{ if parameters.artifactName }}:
+      artifactName: ${{ parameters.artifactName }}
+    ${{ if eq(parameters.artifactName, '') }}:
+      artifactName: $(packageName)
+    ${{ if parameters.targetPath }}:
+      targetPath: ${{ parameters.targetPath }}
+    ${{ if eq(parameters.targetPath, '') }}:
+      targetPath: dist/packages/$(packageName)
+  displayName: Publish build artifacts
