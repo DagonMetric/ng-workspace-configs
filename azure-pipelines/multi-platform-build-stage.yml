@@ -1,28 +1,21 @@
 parameters:
   name: 'multi_platform_build'
-  # additionalVariables: {}
+  publishBuildArtifacts: []
+  publishTestArtifacts: []
+  publishCodeCoverageArtifacts: []
 
 stages:
 - stage: ${{ parameters.name }}
-  # variables:
-  #   ${{ insert }}: ${{ parameters.additionalVariables }}
   jobs:
   - template: build-job.yml
     parameters:
       name: 'default'
-      vmImage: 'ubuntu-16.04'
       publishBuildArtifacts:
-        - publishBuildArtifact:
-          artifactName: 'packages'
-          targetPath: 'dist/packages'
+        - ${{ parameters.publishBuildArtifacts }}
       publishTestArtifacts:
-        - publishTestArtifact:
-          testRunTitle: 'ng-translit'
-          searchFolder: 'dist/junit/ng-translit'
+        - ${{ parameters.publishTestArtifacts }}
       publishCodeCoverageArtifacts:
-        - publishCodeCoverageArtifact:
-          summaryFileLocation: 'dist/coverage/ng-translit/cobertura-coverage.xml'
-          reportDirectory: 'dist/coverage/ng-translit'
+        - ${{ parameters.publishCodeCoverageArtifacts }}
       publishReleaseNotes: 'true'
   - template: build-job.yml
     parameters:
@@ -37,10 +30,3 @@ stages:
           nodeVersion: '12.x'
       additionalVariables:
         skipJob: $[variables.skipLinuxJob]
-
-
-  # - ${{ each job in parameters.jobs }}:
-  #   - template: build-job.yml
-  #     parameters:
-  #       name: ${{ job.key }}
-  #       ${{ insert }}: ${{ job.value }}
