@@ -35,6 +35,8 @@ stages:
           nodeVersion: '10.x'
         node-12:
           nodeVersion: '12.x'
+      additionalVariables:
+        skipJob: $[variables.skipLinuxJob]
 
 
   # - ${{ each job in parameters.jobs }}:
