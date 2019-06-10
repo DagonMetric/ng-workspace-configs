@@ -5,13 +5,13 @@ parameters:
     artifactName: 'packages'
     targetPath: 'dist/packages'
   publishTestArtifacts:
-    - publishTestArtifact:
-      testRunTitle: ''
-      searchFolder: ''
+  - publishTestArtifact:
+    testRunTitle: ''
+    searchFolder: ''
   publishCodeCoverageArtifacts:
-    - publishCodeCoverageArtifact:
-      summaryFileLocation: ''
-      reportDirectory: ''
+  - publishCodeCoverageArtifact:
+    summaryFileLocation: ''
+    reportDirectory: ''
   publishReleaseNotesArtifact:
     artifactName: 'release-notes'
     targetPath: ''

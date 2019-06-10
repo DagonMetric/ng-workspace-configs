@@ -53,8 +53,14 @@ jobs:
       - ${{ each publishTestArtifact in parameters.publishTestArtifacts }}:
         - template: steps/publish-test-results.yml
           parameters:
-            testRunTitle: ${{ publishTestArtifact.testRunTitle }}
-            searchFolder: ${{ publishTestArtifact.searchFolder }}
+            ${{ if publishTestArtifact.testRunTitle }}:
+              testRunTitle: ${{ publishTestArtifact.testRunTitle }}
+            ${{ if eq(publishTestArtifact.testRunTitle, '') }}:
+              testRunTitle: $(packageName)
+            ${{ if publishTestArtifact.searchFolder }}:
+              searchFolder: ${{ publishTestArtifact.searchFolder }}
+            ${{ if eq(parameters.searchFolder, '') }}:
+              searchFolder: $(System.DefaultWorkingDirectory)/dist/junit/$(packageName)
       - ${{ if eq(parameters.publishReleaseNotes, 'true') }}:
         - template: steps/publish-release-notes.yml
           parameters:

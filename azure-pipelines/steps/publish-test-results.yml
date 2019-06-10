@@ -1,19 +1,9 @@
-parameters:
-  testRunTitle: ''
-  searchFolder: ''
-
 steps:
 - task: PublishTestResults@2
   condition: succeededOrFailed()
   inputs:
-    ${{ if parameters.testRunTitle }}:
-      testRunTitle: ${{ parameters.testRunTitle }}
-    ${{ if eq(parameters.testRunTitle, '') }}:
-      testRunTitle: $(packageName)
-    ${{ if parameters.searchFolder }}:
-      searchFolder: ${{ parameters.searchFolder }}
-    ${{ if eq(parameters.searchFolder, '') }}:
-      searchFolder: $(System.DefaultWorkingDirectory)/dist/junit/$(packageName)
+    testRunTitle: ${{ parameters.testRunTitle }}
+    searchFolder: ${{ parameters.searchFolder }}
     testResultsFormat: JUnit
     testResultsFiles: "**/TESTS*.xml"
-  displayName: Publish test results
+  displayName: Publish ${{ parameters.testRunTitle }} test results
