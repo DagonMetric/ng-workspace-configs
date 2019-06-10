@@ -1,7 +1,7 @@
 parameters:
   name: 'default'
   dependsOn: ''
-  vmImage: 'ubuntu-16.04'
+  vmImage: 'ubuntu-latest'
   runLint: 'true'
   publishBuildArtifacts: 'true'
   publishTestArtifacts: 'true'
