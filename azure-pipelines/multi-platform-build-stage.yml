@@ -16,8 +16,6 @@ stages:
       publishTestArtifacts: ${{ parameters.publishTestArtifacts }}
       publishCodeCoverageArtifacts: ${{ parameters.publishCodeCoverageArtifacts }}
       publishReleaseNotes: ${{ parameters.publishReleaseNotes }}
-      additionalVariables:
-        nodeVersion: '10.15.3'
   - template: build-job.yml
     parameters:
       name: 'linux'
