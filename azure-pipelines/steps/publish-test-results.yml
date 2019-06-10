@@ -1,9 +1,9 @@
 steps:
 - task: PublishTestResults@2
-  condition: succeededOrFailed()
   inputs:
-    testRunTitle: ${{ parameters.testRunTitle }}
-    searchFolder: ${{ parameters.searchFolder }}
+    testRunTitle: $(packageName)
+    searchFolder: $(System.DefaultWorkingDirectory)/dist/junit/$(packageName)
     testResultsFormat: JUnit
     testResultsFiles: "**/TESTS*.xml"
-  displayName: Publish ${{ parameters.testRunTitle }} test results
+  condition: succeededOrFailed()
+  displayName: Publish test results

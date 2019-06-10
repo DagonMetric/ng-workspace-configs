@@ -4,4 +4,4 @@ steps:
     echo "##vso[task.setvariable variable=packageName]$packageName"
     packageVersion=`node -p "require('./package.json').version;"`
     echo "##vso[task.setvariable variable=packageVersion]$packageVersion"
-  displayName: 'Set package info variables'
+  displayName: Set package info variables

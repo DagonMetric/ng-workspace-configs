@@ -3,17 +3,10 @@ parameters:
   dependsOn: ''
   vmImage: 'ubuntu-16.04'
   runLint: 'true'
-  publishBuildArtifacts: []
-  publishTestArtifacts: []
-  publishCodeCoverageArtifacts: []
-  publishReleaseNotes: 'false'
-  publishReleaseNotesArtifact:
-    artifactName: 'release-notes'
-    targetPath: ''
-  maxParallel: 0
-  matrix:
-    node-10.15.3:
-      nodeVersion: '10.15.3'
+  publishBuildArtifacts: 'true'
+  publishTestArtifacts: 'true'
+  publishCodeCoverageArtifacts: 'true'
+  publishReleaseNotes: 'true'
   additionalVariables: {}
 
 jobs:
@@ -25,8 +18,10 @@ jobs:
         - ${{ parameters.dependsOn }}
     condition: and(succeeded(), ne(variables.skipJob, 'true'))
     strategy:
-      maxParallel: ${{ parameters.maxParallel }}
-      matrix: ${{ parameters.matrix }}
+      ${{ if parameters.maxParallel }}:
+        maxParallel: ${{ parameters.maxParallel }}
+      ${{ if parameters.matrix }}:
+        matrix: ${{ parameters.matrix }}
     pool:
       vmImage: ${{ parameters.vmImage }}
     steps:
@@ -39,30 +34,12 @@ jobs:
       - ${{ if eq(parameters.runLint, 'true') }}:
         - template: steps/lint.yml
       - template: steps/build.yml
-      - ${{ each publishBuildArtifact in parameters.publishBuildArtifacts }}:
+      - ${{ if eq(parameters.publishBuildArtifacts, 'true') }}:
         - template: steps/publish-build-results.yml
-          parameters:
-            artifactName: ${{ publishBuildArtifact.artifactName }}
-            targetPath: ${{ publishBuildArtifact.targetPath }}
       - template: steps/test.yml
-      - ${{ each publishCodeCoverageArtifact in parameters.publishCodeCoverageArtifacts }}:
-        - template: steps/publish-code-coverage-results.yml
-          parameters:
-            summaryFileLocation: ${{ publishCodeCoverageArtifact.summaryFileLocation }}
-            reportDirectory: ${{ publishCodeCoverageArtifact.reportDirectory }}
-      - ${{ each publishTestArtifact in parameters.publishTestArtifacts }}:
+      - ${{ if eq(parameters.publishTestArtifacts, 'true') }}:
         - template: steps/publish-test-results.yml
-          parameters:
-            ${{ if publishTestArtifact.testRunTitle }}:
-              testRunTitle: ${{ publishTestArtifact.testRunTitle }}
-            ${{ if eq(publishTestArtifact.testRunTitle, '') }}:
-              testRunTitle: $(packageName)
-            ${{ if publishTestArtifact.searchFolder }}:
-              searchFolder: ${{ publishTestArtifact.searchFolder }}
-            ${{ if eq(parameters.searchFolder, '') }}:
-              searchFolder: $(System.DefaultWorkingDirectory)/dist/junit/$(packageName)
+      - ${{ if eq(parameters.publishCodeCoverageArtifacts, 'true') }}:
+        - template: steps/publish-code-coverage-results.yml
       - ${{ if eq(parameters.publishReleaseNotes, 'true') }}:
         - template: steps/publish-release-notes.yml
-          parameters:
-            artifactName: ${{ parameters.publishReleaseNotesArtifact.artifactName }}
-            targetPath: ${{ parameters.publishReleaseNotesArtifact.targetPath }}

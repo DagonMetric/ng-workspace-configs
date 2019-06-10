@@ -1,14 +1,7 @@
-parameters:
-  artifactName: 'release-notes'
-  targetPath: ''
-
 steps:
 - task: PublishPipelineArtifact@0
   inputs:
-    artifactName: ${{ parameters.artifactName }}
-    ${{ if parameters.targetPath }}:
-      targetPath: ${{ parameters.targetPath }}
-    ${{ if eq(parameters.targetPath, '') }}:
-      targetPath: release-notes/v$(packageVersion)
+    artifactName: 'release-notes'
+    targetPath: release-notes/v$(packageVersion)
   condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/tags/'))
-  displayName: 'Publish release notes'
+  displayName: Publish release notes

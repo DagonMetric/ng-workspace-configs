@@ -1,20 +1,9 @@
 parameters:
   name: 'multi_platform_build'
-  publishBuildArtifacts:
-  - publishBuildArtifact:
-    artifactName: 'packages'
-    targetPath: 'dist/packages'
-  publishTestArtifacts:
-  - publishTestArtifact:
-    testRunTitle: ''
-    searchFolder: ''
-  publishCodeCoverageArtifacts:
-  - publishCodeCoverageArtifact:
-    summaryFileLocation: ''
-    reportDirectory: ''
-  publishReleaseNotesArtifact:
-    artifactName: 'release-notes'
-    targetPath: ''
+  publishBuildArtifacts: 'true'
+  publishTestArtifacts: 'true'
+  publishCodeCoverageArtifacts: 'true'
+  publishReleaseNotes: 'true'
 
 stages:
 - stage: ${{ parameters.name }}
@@ -22,17 +11,24 @@ stages:
   - template: build-job.yml
     parameters:
       name: 'default'
+      runLint: 'true'
       publishBuildArtifacts: ${{ parameters.publishBuildArtifacts }}
       publishTestArtifacts: ${{ parameters.publishTestArtifacts }}
       publishCodeCoverageArtifacts: ${{ parameters.publishCodeCoverageArtifacts }}
-      publishReleaseNotesArtifact: ${{ parameters.publishReleaseNotesArtifact }}
-      publishReleaseNotes: 'true'
+      publishReleaseNotes: ${{ parameters.publishReleaseNotes }}
+      additionalVariables:
+        nodeVersion: '10.15.3'
   - template: build-job.yml
     parameters:
       name: 'linux'
       vmImage: 'ubuntu-latest'
       dependsOn: 'default'
       runLint: 'false'
+      publishBuildArtifacts: 'false'
+      publishTestArtifacts: 'false'
+      publishCodeCoverageArtifacts: 'false'
+      publishReleaseNotes: 'false'
+      maxParallel: 2
       matrix:
         node-10:
           nodeVersion: '10.x'
@@ -46,6 +42,11 @@ stages:
       vmImage: 'macOS-latest'
       dependsOn: 'default'
       runLint: 'false'
+      publishBuildArtifacts: 'false'
+      publishTestArtifacts: 'false'
+      publishCodeCoverageArtifacts: 'false'
+      publishReleaseNotes: 'false'
+      maxParallel: 2
       matrix:
         node-10:
           nodeVersion: '10.x'
@@ -59,6 +60,11 @@ stages:
       vmImage: 'windows-latest'
       dependsOn: 'default'
       runLint: 'false'
+      publishBuildArtifacts: 'false'
+      publishTestArtifacts: 'false'
+      publishCodeCoverageArtifacts: 'false'
+      publishReleaseNotes: 'false'
+      maxParallel: 2
       matrix:
         node-10:
           nodeVersion: '10.x'

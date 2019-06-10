@@ -1,10 +1,6 @@
-parameters:
-  artifactName: 'packages'
-  targetPath: 'dist/packages'
-
 steps:
 - task: PublishPipelineArtifact@0
   inputs:
-    artifactName: ${{ parameters.artifactName }}
-    targetPath: ${{ parameters.targetPath }}
+    artifactName: 'packages'
+    targetPath: 'dist/packages'
   displayName: Publish build artifacts

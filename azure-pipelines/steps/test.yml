@@ -1,4 +1,4 @@
 steps:
 - script: |
     yarn test -c=ci
-  displayName: Run tests
+  displayName: Run test
