@@ -1,19 +1,6 @@
 version: '{build}'
 image: 'Visual Studio 2017'
 clone_depth: 1
-only_commits:
-  files:
-    - modules/*
-    - samples/*
-    - angular-build.json
-    - angular.json
-    - package.json
-    - tsconfig.json
-    - tslint.json
-    - .appveyor.yml
-skip_commits:
-  files:
-    - '**/*.md'
 environment:
   nodejs_version: "10"
 install:
@@ -22,7 +9,7 @@ install:
 build_script:
   - yarn build
 test_script:
-  - yarn test:ci
+  - yarn test -c=ci
 cache:
   - node_modules -> yarn.lock
   - "%LOCALAPPDATA%\\Yarn"
