@@ -7,6 +7,7 @@ parameters:
   publishTestArtifacts: 'true'
   publishCodeCoverageArtifacts: 'true'
   publishReleaseNotes: 'true'
+  publishNpmrc: 'true'
   additionalVariables: {}
 
 jobs:
@@ -43,3 +44,5 @@ jobs:
         - template: steps/publish-code-coverage-results.yml
       - ${{ if eq(parameters.publishReleaseNotes, 'true') }}:
         - template: steps/publish-release-notes.yml
+      - ${{ if eq(parameters.publishNpmrc, 'true') }}:
+        - template: steps/publish-npmrc.yml

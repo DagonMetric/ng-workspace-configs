@@ -4,6 +4,7 @@ parameters:
   publishTestArtifacts: 'true'
   publishCodeCoverageArtifacts: 'true'
   publishReleaseNotes: 'true'
+  publishNpmrc: 'true'
 
 stages:
 - stage: ${{ parameters.name }}
@@ -16,6 +17,7 @@ stages:
       publishTestArtifacts: ${{ parameters.publishTestArtifacts }}
       publishCodeCoverageArtifacts: ${{ parameters.publishCodeCoverageArtifacts }}
       publishReleaseNotes: ${{ parameters.publishReleaseNotes }}
+      publishNpmrc: ${{ parameters.publishNpmrc }}
   - template: build-job.yml
     parameters:
       name: 'linux'
@@ -26,10 +28,8 @@ stages:
       publishTestArtifacts: 'false'
       publishCodeCoverageArtifacts: 'false'
       publishReleaseNotes: 'false'
-      maxParallel: 2
+      publishNpmrc: 'false'
       matrix:
-        node-10:
-          nodeVersion: '10.x'
         node-12:
           nodeVersion: '12.x'
       additionalVariables:
@@ -44,7 +44,7 @@ stages:
       publishTestArtifacts: 'false'
       publishCodeCoverageArtifacts: 'false'
       publishReleaseNotes: 'false'
-      maxParallel: 2
+      publishNpmrc: 'false'
       matrix:
         node-10:
           nodeVersion: '10.x'
@@ -62,7 +62,7 @@ stages:
       publishTestArtifacts: 'false'
       publishCodeCoverageArtifacts: 'false'
       publishReleaseNotes: 'false'
-      maxParallel: 2
+      publishNpmrc: 'false'
       matrix:
         node-10:
           nodeVersion: '10.x'
