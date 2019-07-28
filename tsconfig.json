@@ -20,7 +20,10 @@
     "importHelpers": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "lib": [ "es2018", "dom" ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
 
     "baseUrl": ".",
     "rootDir": ".",
