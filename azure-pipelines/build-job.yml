@@ -7,7 +7,7 @@ parameters:
   publishTestArtifacts: 'true'
   publishCodeCoverageArtifacts: 'true'
   publishReleaseNotes: 'true'
-  publishNpmrc: 'true'
+  publishNpmrc: 'false'
   additionalVariables: {}
 
 jobs:
