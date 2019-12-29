@@ -1,3 +1,3 @@
-# Shared Workspace Configuration Files for Angular Projects
+# ng-workspace-configs
 
-Shared configuration files for Angular project repos used by DagonMetric.
+Archived and moved to https://github.com/DagonMetric/angular-project-template
